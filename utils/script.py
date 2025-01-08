@@ -12,6 +12,8 @@ from data_loader.dataset_h36m_multimodal import DatasetH36M_multi
 from data_loader.dataset_humaneva_multimodal import DatasetHumanEva_multi
 from scipy.spatial.distance import pdist, squareform
 
+from data_loader.dataset_fish import DatasetFish
+
 
 def create_model_and_diffusion(cfg):
     """
@@ -46,16 +48,20 @@ def dataset_split(cfg):
     dataset_dict has two keys: 'train', 'test' for enumeration in train and validation.
     dataset_multi_test is used to create multi-modal data for metrics.
     """
-    dataset_cls = DatasetH36M if cfg.dataset == 'h36m' else DatasetHumanEva
+    # dataset_cls = DatasetH36M if cfg.dataset == 'h36m' else DatasetHumanEva
+    dataset_cls = DatasetH36M if cfg.dataset == 'h36m' else DatasetFish
     dataset = dataset_cls('train', cfg.t_his, cfg.t_pred, actions='all')
     dataset_test = dataset_cls('test', cfg.t_his, cfg.t_pred, actions='all')
 
-    dataset_cls_multi = DatasetH36M_multi if cfg.dataset == 'h36m' else DatasetHumanEva_multi
-    dataset_multi_test = dataset_cls_multi('test', cfg.t_his, cfg.t_pred,
-                                           multimodal_path=cfg.multimodal_path,
-                                           data_candi_path=cfg.data_candi_path)
 
-    return {'train': dataset, 'test': dataset_test}, dataset_multi_test
+    # dataset_cls_multi = DatasetH36M_multi if cfg.dataset == 'h36m' else DatasetHumanEva_multi
+    # dataset_multi_test = dataset_cls_multi('test', cfg.t_his, cfg.t_pred,
+    #                                        multimodal_path=cfg.multimodal_path,
+    #                                        data_candi_path=cfg.data_candi_path)
+
+    # return {'train': dataset, 'test': dataset_test}, dataset_multi_test
+
+    return {'train': dataset, 'test': dataset_test}
 
 
 def get_multimodal_gt_full(logger, dataset_multi_test, args, cfg):

@@ -101,5 +101,6 @@ class Config:
         elif self.dataset == 'amass':
             self.joint_num = 21
         else:
-            self.joint_num = 14
+            # self.joint_num = 14
+            self.joint_num = 4
         self.idx_pad, self.zero_index = generate_pad(self.padding, self.t_his, self.t_pred)
